@@ -1,0 +1,10 @@
+{
+  "name": "celeste-golden-berry-tracker",
+  "description": "API and web application for detailed Celeste golden berry run tracking and statistics",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sddsBanjo/celeste-golden-berry-tracker.git"
+  },
+  "author": "SDDS Banjo",
+  "type": "module"
+}
