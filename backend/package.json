@@ -2,5 +2,8 @@
   "name": "celeste-golden-berry-tracker-backend",
   "description": "Backend API for the Celeste golden berry tracker",
   "author": "SDDS Banjo",
-  "type": "module"
+  "type": "module",
+  "dependencies": {
+    "express": "^5.2.1"
+  }
 }
