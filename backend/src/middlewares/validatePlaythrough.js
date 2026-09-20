@@ -1,6 +1,4 @@
-function isNonEmptyString(value) {
-    return typeof value === "string" && value.trim() !== "";
-}
+import { isNonEmptyString } from "../utils/validators.js";
 
 function isOptionalString(value) {
     return value === undefined || value === null || typeof value === "string";

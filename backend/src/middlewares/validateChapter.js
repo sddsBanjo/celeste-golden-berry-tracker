@@ -1,9 +1,7 @@
+import { isNonEmptyString } from "../utils/validators.js";
+
 function isValidIdentifier(value) {
     return typeof value === "string" && /^[A-Za-z0-9]+$/.test(value.trim());
-}
-
-function isNonEmptyString(value) {
-    return typeof value === "string" && value.trim() !== "";
 }
 
 function isNonNegativeInteger(value) {
