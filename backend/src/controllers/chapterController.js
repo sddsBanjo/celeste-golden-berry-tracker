@@ -6,7 +6,11 @@ export function getAll(req, res) {
 }
 
 export function create(req, res) {
-    const { identifier, name, origin, number, side } = req.body;
+    const identifier = req.body.identifier.trim();
+    const name = req.body.name.trim();
+    const origin = req.body.origin.trim();
+    const { number } = req.body;
+    const side = req.body.side.trim();
 
     const newChapter = {
         id: nextId++,
