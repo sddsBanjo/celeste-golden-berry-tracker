@@ -1,5 +1,6 @@
 import express, { Router } from "express";
 import chapterRoutes from "./routes/chapterRoutes.js";
+import playthroughRoutes from "./routes/playthroughRoutes.js";
 
 process.loadEnvFile();
 
@@ -12,6 +13,7 @@ apiRouter.get("/health", (req, res) => {
     res.json({ status: "ok" });
 });
 apiRouter.use("/chapters", chapterRoutes);
+apiRouter.use("/playthroughs", playthroughRoutes);
 
 app.use("/api", apiRouter);
 
