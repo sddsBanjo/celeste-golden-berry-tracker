@@ -12,6 +12,15 @@ export function create(req, res) {
     const { number } = req.body;
     const side = req.body.side.trim();
 
+    const existing = chapters.find(
+        (chapter) => chapter.identifier.toLowerCase() === identifier.toLowerCase()
+    );
+    if (existing) {
+        return res.status(409).json({
+            error: `A chapter with identifier '${existing.identifier}' already exists.`
+        });
+    }
+
     const newChapter = {
         id: nextId++,
         identifier,
