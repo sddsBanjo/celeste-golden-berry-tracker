@@ -33,3 +33,19 @@ export function create(req, res) {
 
     res.status(201).json(newPlaythrough);
 }
+
+export function update(req, res) {
+    const id = Number(req.params.id);
+
+    const result = playthroughs.find((playthrough) => playthrough.id === id);
+    if (!result) {
+        return res.status(404).json({
+            error: `Couldn't find a playthrough of ID ${id}.`
+        });
+    }
+
+    result.name = req.body.name.trim();
+    result.description = (req.body.description ?? "").trim();
+
+    res.json(result);
+}

@@ -7,5 +7,6 @@ const router = Router();
 router.get("/", playthroughController.getAll);
 router.get("/:id", validateId, playthroughController.getById);
 router.post("/", validatePlaythrough, playthroughController.create);
+router.put("/:id", validateId, validatePlaythrough, playthroughController.update);
 
 export default router;
