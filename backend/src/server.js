@@ -1,4 +1,5 @@
 import express, { Router } from "express";
+import chapterRoutes from "./routes/chapterRoutes.js";
 
 process.loadEnvFile();
 
@@ -9,6 +10,7 @@ const apiRouter = Router();
 apiRouter.get("/health", (req, res) => {
     res.json({ status: "ok" });
 });
+apiRouter.use("/chapters", chapterRoutes);
 
 app.use("/api", apiRouter);
 
