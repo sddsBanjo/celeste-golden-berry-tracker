@@ -1,6 +1,9 @@
 {
   "name": "celeste-golden-berry-tracker-backend",
   "description": "Backend API for the Celeste golden berry tracker",
+  "scripts": {
+    "dev": "node --watch src/server.js"
+  },
   "author": "SDDS Banjo",
   "type": "module",
   "dependencies": {
