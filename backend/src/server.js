@@ -5,6 +5,7 @@ process.loadEnvFile();
 
 const app = express();
 const port = process.env.PORT || 3000;
+app.use(express.json());
 
 const apiRouter = Router();
 apiRouter.get("/health", (req, res) => {
