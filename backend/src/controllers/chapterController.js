@@ -5,6 +5,19 @@ export function getAll(req, res) {
     res.json(chapters);
 }
 
+export function getById(req, res) {
+    const id = Number(req.params.id);
+
+    const result = chapters.find((chapter) => chapter.id === id);
+    if (!result) {
+        return res.status(404).json({
+            error: `Couldn't find a chapter of ID ${id}.`
+        });
+    }
+
+    res.json(result);
+}
+
 export function create(req, res) {
     const identifier = req.body.identifier.trim();
     const name = req.body.name.trim();
