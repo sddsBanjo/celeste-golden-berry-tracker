@@ -6,7 +6,8 @@ export function getAll(req, res) {
 }
 
 export function create(req, res) {
-    const { name, description } = req.body;
+    const name = req.body.name.trim();
+    const description = (req.body.description ?? "").trim(); 
 
     const newPlaythrough = {
         id: nextId++,
