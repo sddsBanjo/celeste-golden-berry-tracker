@@ -48,3 +48,33 @@ export function create(req, res) {
 
     res.status(201).json(newChapter);
 }
+
+export function update(req, res) {
+    const id = Number(req.params.id);
+
+    const result = chapters.find((chapter) => chapter.id === id);
+    if (!result) {
+        return res.status(404).json({
+            error: `Couldn't find a chapter of ID ${id}.`
+        });
+    }
+
+    const identifier = req.body.identifier.trim();
+
+    const existing = chapters.find((chapter) =>
+        chapter.identifier.toLowerCase() === identifier.toLowerCase() && chapter.id !== id
+    );
+    if (existing) {
+        return res.status(409).json({
+            error: `A chapter with identifier '${existing.identifier}' already exists.`
+        });
+    }
+
+    result.identifier = identifier;
+    result.name = req.body.name.trim();
+    result.origin = req.body.origin.trim();
+    result.number = req.body.number;
+    result.side = req.body.side.trim();
+
+    res.json(result);
+}

@@ -7,5 +7,6 @@ const router = Router();
 router.get("/", chapterController.getAll);
 router.get("/:id", validateId, chapterController.getById);
 router.post("/", validateChapter, chapterController.create);
+router.put("/:id", validateId, validateChapter, chapterController.update);
 
 export default router;
