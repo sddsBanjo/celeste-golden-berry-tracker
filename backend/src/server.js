@@ -1,4 +1,5 @@
 import express, { Router } from "express";
+import { notFoundHandler } from "./middlewares/errorHandler.js";
 import chapterRoutes from "./routes/chapterRoutes.js";
 import playthroughRoutes from "./routes/playthroughRoutes.js";
 
@@ -16,6 +17,7 @@ apiRouter.use("/chapters", chapterRoutes);
 apiRouter.use("/playthroughs", playthroughRoutes);
 
 app.use("/api", apiRouter);
+app.use(notFoundHandler);
 
 app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}`);
