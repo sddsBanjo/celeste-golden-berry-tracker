@@ -8,5 +8,6 @@ router.get("/", playthroughController.getAll);
 router.get("/:id", validateId, playthroughController.getById);
 router.post("/", validatePlaythrough, playthroughController.create);
 router.put("/:id", validateId, validatePlaythrough, playthroughController.update);
+router.delete("/:id", validateId, playthroughController.remove);
 
 export default router;

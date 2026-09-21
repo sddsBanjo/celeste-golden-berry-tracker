@@ -49,3 +49,18 @@ export function update(req, res) {
 
     res.json(result);
 }
+
+export function remove(req, res) {
+    const id = Number(req.params.id);
+
+    const index = playthroughs.findIndex((playthrough) => playthrough.id === id);
+    if (index === -1) {
+        return res.status(404).json({
+            error: `Couldn't find a playthrough of ID ${id}.`
+        });
+    }
+
+    playthroughs.splice(index, 1);
+
+    res.status(204).send();
+}
