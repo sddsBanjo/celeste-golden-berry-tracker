@@ -78,3 +78,18 @@ export function update(req, res) {
 
     res.json(result);
 }
+
+export function remove(req, res) {
+    const id = Number(req.params.id);
+
+    const index = chapters.findIndex((chapter) => chapter.id === id);
+    if (index === -1) {
+        return res.status(404).json({
+            error: `Couldn't find a chapter of ID ${id}.`
+        });
+    }
+
+    chapters.splice(index, 1);
+
+    res.status(204).send();
+}

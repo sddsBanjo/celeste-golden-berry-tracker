@@ -8,5 +8,6 @@ router.get("/", chapterController.getAll);
 router.get("/:id", validateId, chapterController.getById);
 router.post("/", validateChapter, chapterController.create);
 router.put("/:id", validateId, validateChapter, chapterController.update);
+router.delete("/:id", validateId, chapterController.remove);
 
 export default router;
