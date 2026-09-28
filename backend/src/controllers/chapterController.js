@@ -1,5 +1,17 @@
+import vanillaChapters from "../../database/seed/vanillaChapters.js";
+
 const chapters = [];
 let nextId = 1;
+
+export function buildVanillaChapters() {
+    const result = [];
+    for (const { number, name, sides } of vanillaChapters) {
+        for (const side of sides) {
+            result.push({ identifier: `Celeste${number}${side}`, name, origin: "Celeste", number, side });
+        }
+    }
+    return result;
+}
 
 export function getAll(req, res) {
     const { origin, side } = req.query;
