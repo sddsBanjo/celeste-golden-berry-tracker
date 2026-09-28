@@ -2,7 +2,16 @@ const chapters = [];
 let nextId = 1;
 
 export function getAll(req, res) {
-    res.json(chapters);
+    const { origin, side } = req.query;
+    const number = req.query.number === undefined ? undefined : Number(req.query.number);
+
+    const result = chapters.filter((chapter) =>
+        (origin === undefined || chapter.origin.toLowerCase() === origin.toLowerCase()) &&
+        (side === undefined || chapter.side.toLowerCase() === side.toLowerCase()) &&
+        (number === undefined || chapter.number === number)
+    );
+
+    res.json(result);
 }
 
 export function getById(req, res) {
