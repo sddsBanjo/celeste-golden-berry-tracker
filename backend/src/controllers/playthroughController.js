@@ -1,14 +1,13 @@
-const playthroughs = [];
-let nextId = 1;
+import * as playthroughRepository from "../repositories/playthroughRepository.js";
 
 export function getAll(req, res) {
-    res.json(playthroughs);
+    res.json(playthroughRepository.getAll());
 }
 
 export function getById(req, res) {
     const id = Number(req.params.id);
 
-    const result = playthroughs.find((playthrough) => playthrough.id === id);
+    const result = playthroughRepository.getById(id);
     if (!result) {
         return res.status(404).json({
             error: `Couldn't find a playthrough of ID ${id}.`
@@ -18,18 +17,11 @@ export function getById(req, res) {
     res.json(result);
 }
 
-export function create(req, res) {
+export function create(req, res) { 
     const name = req.body.name.trim();
-    const description = (req.body.description ?? "").trim(); 
+    const description = (req.body.description ?? "").trim();
 
-    const newPlaythrough = {
-        id: nextId++,
-        name,
-        description,
-        created_at: new Date().toISOString()
-    };
-
-    playthroughs.push(newPlaythrough);
+    const newPlaythrough = playthroughRepository.create({ name, description });
 
     res.status(201).json(newPlaythrough);
 }
@@ -37,30 +29,33 @@ export function create(req, res) {
 export function update(req, res) {
     const id = Number(req.params.id);
 
-    const result = playthroughs.find((playthrough) => playthrough.id === id);
-    if (!result) {
+    const playthrough = playthroughRepository.getById(id);
+    if (!playthrough) {
         return res.status(404).json({
             error: `Couldn't find a playthrough of ID ${id}.`
         });
     }
 
-    result.name = req.body.name.trim();
-    result.description = (req.body.description ?? "").trim();
+    const name = req.body.name.trim();
+    const description = (req.body.description ?? "").trim();
 
-    res.json(result);
+    const updated = playthroughRepository.update(playthrough, {
+        name,
+        description
+    });
+
+    res.json(updated);
 }
 
 export function remove(req, res) {
     const id = Number(req.params.id);
 
-    const index = playthroughs.findIndex((playthrough) => playthrough.id === id);
-    if (index === -1) {
+    const removed = playthroughRepository.remove(id);
+    if (!removed) {
         return res.status(404).json({
             error: `Couldn't find a playthrough of ID ${id}.`
         });
     }
-
-    playthroughs.splice(index, 1);
 
     res.status(204).send();
 }
