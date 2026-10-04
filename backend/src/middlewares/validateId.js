@@ -1,4 +1,4 @@
-function isValidId(value) {
+export function isValidId(value) {
     return /^[0-9]+$/.test(value) && Number(value) > 0;
 }
 
@@ -9,6 +9,19 @@ export function validateId(req, res, next) {
         return res.status(400).json({
             error: "Invalid ID!",
             details: [{ field: "id", message: `The ID must be a positive integer, unlike '${id}'.` }]
+        });
+    }
+
+    next();
+}
+
+export function validateChapterIdParam(req, res, next) {
+    const chapterId = req.params.chapterId;
+
+    if (!isValidId(chapterId)) {
+        return res.status(400).json({
+            error: "Invalid ID!",
+            details: [{ field: "chapterId", message: `The ID must be a positive integer, unlike '${chapterId}'.` }]
         });
     }
 
