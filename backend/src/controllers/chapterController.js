@@ -1,42 +1,24 @@
-import vanillaChapters from "../../database/seed/vanillaChapters.js";
-
-const chapters = [];
-let nextId = 1;
-
-export function buildVanillaChapters() {
-    const result = [];
-    for (const { number, name, sides } of vanillaChapters) {
-        for (const side of sides) {
-            result.push({ identifier: `Celeste${number}${side}`, name, origin: "Celeste", number, side });
-        }
-    }
-    return result;
-}
+import * as chapterRepository from "../repositories/chapterRepository.js";
 
 export function getAll(req, res) {
     const { origin, side } = req.query;
     const number = req.query.number === undefined ? undefined : Number(req.query.number);
 
-    const result = chapters.filter((chapter) =>
-        (origin === undefined || chapter.origin.toLowerCase() === origin.toLowerCase()) &&
-        (side === undefined || chapter.side.toLowerCase() === side.toLowerCase()) &&
-        (number === undefined || chapter.number === number)
-    );
-
+    const result = chapterRepository.getAll({ origin, side, number });
     res.json(result);
 }
 
 export function getById(req, res) {
     const id = Number(req.params.id);
 
-    const result = chapters.find((chapter) => chapter.id === id);
-    if (!result) {
+    const chapter = chapterRepository.getById(id);
+    if (!chapter) {
         return res.status(404).json({
             error: `Couldn't find a chapter of ID ${id}.`
         });
     }
 
-    res.json(result);
+    res.json(chapter);
 }
 
 export function create(req, res) {
@@ -46,35 +28,22 @@ export function create(req, res) {
     const { number } = req.body;
     const side = req.body.side.trim();
 
-    const existing = chapters.find(
-        (chapter) => chapter.identifier.toLowerCase() === identifier.toLowerCase()
-    );
+    const existing = chapterRepository.getByIdentifier(identifier);
     if (existing) {
         return res.status(409).json({
             error: `A chapter with identifier '${existing.identifier}' already exists.`
         });
     }
 
-    const newChapter = {
-        id: nextId++,
-        identifier,
-        name,
-        origin,
-        number,
-        side,
-        created_at: new Date().toISOString()
-    };
-
-    chapters.push(newChapter);
-
+    const newChapter = chapterRepository.create({ identifier, name, origin, number, side });
     res.status(201).json(newChapter);
 }
 
 export function update(req, res) {
     const id = Number(req.params.id);
 
-    const result = chapters.find((chapter) => chapter.id === id);
-    if (!result) {
+    const chapter = chapterRepository.getById(id);
+    if (!chapter) {
         return res.status(404).json({
             error: `Couldn't find a chapter of ID ${id}.`
         });
@@ -82,35 +51,33 @@ export function update(req, res) {
 
     const identifier = req.body.identifier.trim();
 
-    const existing = chapters.find((chapter) =>
-        chapter.identifier.toLowerCase() === identifier.toLowerCase() && chapter.id !== id
-    );
+    const existing = chapterRepository.getByIdentifier(identifier, id);
     if (existing) {
         return res.status(409).json({
             error: `A chapter with identifier '${existing.identifier}' already exists.`
         });
     }
 
-    result.identifier = identifier;
-    result.name = req.body.name.trim();
-    result.origin = req.body.origin.trim();
-    result.number = req.body.number;
-    result.side = req.body.side.trim();
+    const updated = chapterRepository.update(chapter, {
+        identifier,
+        name: req.body.name.trim(),
+        origin: req.body.origin.trim(),
+        number: req.body.number,
+        side: req.body.side.trim()
+    });
 
-    res.json(result);
+    res.json(updated);
 }
 
 export function remove(req, res) {
     const id = Number(req.params.id);
 
-    const index = chapters.findIndex((chapter) => chapter.id === id);
-    if (index === -1) {
+    const removed = chapterRepository.remove(id);
+    if (!removed) {
         return res.status(404).json({
             error: `Couldn't find a chapter of ID ${id}.`
         });
     }
-
-    chapters.splice(index, 1);
 
     res.status(204).send();
 }
