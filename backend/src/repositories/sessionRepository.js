@@ -17,7 +17,7 @@ export function create(data) {
     const newSession = {
         id: nextId++,
         playthrough_chapter_id: data.playthrough_chapter_id,
-        date: data.date,
+        played_at: data.played_at,
         duration_seconds: data.duration_seconds,
         deaths: data.deaths,
         completed: data.completed,
