@@ -54,3 +54,24 @@ export function create(req, res) {
 
     res.status(201).json(association);
 }
+
+export function remove(req, res) {
+    const playthroughId = Number(req.params.id);
+    const chapterId = Number(req.params.chapterId);
+
+    const playthrough = playthroughRepository.getById(playthroughId);
+    if (!playthrough) {
+        return res.status(404).json({
+            error: `Couldn't find a playthrough of ID ${playthroughId}.`
+        });
+    }
+
+    const removed = playthroughChapterRepository.remove(playthroughId, chapterId);
+    if (!removed) {
+        return res.status(404).json({
+            error: `Chapter ${chapterId} is not associated with playthrough ${playthroughId}.`
+        });
+    }
+
+    res.status(204).send();
+}

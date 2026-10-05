@@ -1,7 +1,7 @@
 import { Router } from "express";
 import * as playthroughController from "../controllers/playthroughController.js";
 import * as playthroughChapterController from "../controllers/playthroughChapterController.js";
-import { validateId } from "../middlewares/validateId.js";
+import { validateId, validateChapterIdParam } from "../middlewares/validateId.js";
 import { validatePlaythrough } from "../middlewares/validatePlaythrough.js";
 import { validatePlaythroughChapter } from "../middlewares/validatePlaythroughChapter.js";
 
@@ -14,5 +14,6 @@ router.delete("/:id", validateId, playthroughController.remove);
 
 router.get("/:id/chapters", validateId, playthroughChapterController.getAll);
 router.post("/:id/chapters", validateId, validatePlaythroughChapter, playthroughChapterController.create);
+router.delete("/:id/chapters/:chapterId", validateId, validateChapterIdParam, playthroughChapterController.remove)
 
 export default router;
