@@ -2,6 +2,26 @@ import * as playthroughChapterRepository from "../repositories/playthroughChapte
 import * as playthroughRepository from "../repositories/playthroughRepository.js";
 import * as chapterRepository from "../repositories/chapterRepository.js";
 
+export function getAll(req, res) {
+    const playthroughId = Number(req.params.id);
+
+    const playthrough = playthroughRepository.getById(playthroughId);
+    if (!playthrough) {
+        return res.status(404).json({
+            error: `Couldn't find a playthrough of ID ${playthroughId}.`
+        });
+    }
+
+    const associations = playthroughChapterRepository.getAllByPlaythrough(playthroughId);
+
+    const chapters = associations
+        .map((association) => chapterRepository.getById(association.chapter_id))
+        .filter((chapter) => chapter !== null)
+        .sort((a, b) => a.number - b.number || a.side.localeCompare(b.side));
+
+    res.json(chapters);
+}
+
 export function create(req, res) {
     const playthroughId = Number(req.params.id);
     const chapterId = Number(req.body.chapter_id);

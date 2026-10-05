@@ -12,6 +12,7 @@ router.post("/", validatePlaythrough, playthroughController.create);
 router.put("/:id", validateId, validatePlaythrough, playthroughController.update);
 router.delete("/:id", validateId, playthroughController.remove);
 
+router.get("/:id/chapters", validateId, playthroughChapterController.getAll);
 router.post("/:id/chapters", validateId, validatePlaythroughChapter, playthroughChapterController.create);
 
 export default router;
