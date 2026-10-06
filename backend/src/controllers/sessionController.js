@@ -1,6 +1,16 @@
 import * as sessionRepository from "../repositories/sessionRepository.js";
 import * as playthroughChapterRepository from "../repositories/playthroughChapterRepository.js";
 
+export function getAll(req, res) {
+    const playthroughChapterId =
+        req.query.playthrough_chapter_id === undefined
+            ? undefined
+            : Number(req.query.playthrough_chapter_id);
+
+    const result = sessionRepository.getAll({ playthrough_chapter_id: playthroughChapterId });
+    res.json(result);
+}
+
 export function create(req, res) {
     const playthroughChapterId = req.body.playthrough_chapter_id;
 

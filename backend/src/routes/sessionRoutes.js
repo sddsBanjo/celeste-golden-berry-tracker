@@ -4,6 +4,7 @@ import { validateSession } from "../middlewares/validateSession.js";
 
 const router = Router();
 
+router.get("/", sessionController.getAll);
 router.post("/", validateSession, sessionController.create);
 
 export default router;
