@@ -17,6 +17,10 @@ export function getByPlaythroughAndChapter(playthroughId, chapterId) {
     );
 }
 
+export function getById(id) {
+    return playthroughChapters.find((association) => association.id === id) ?? null;
+}
+
 export function create(data) {
     const newAssociation = {
         id: nextId++,

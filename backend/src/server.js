@@ -2,6 +2,7 @@ import express, { Router } from "express";
 import { notFoundHandler } from "./middlewares/errorHandler.js";
 import chapterRoutes from "./routes/chapterRoutes.js";
 import playthroughRoutes from "./routes/playthroughRoutes.js";
+import sessionRoutes from "./routes/sessionRoutes.js";
 
 process.loadEnvFile();
 
@@ -15,6 +16,7 @@ apiRouter.get("/health", (req, res) => {
 });
 apiRouter.use("/chapters", chapterRoutes);
 apiRouter.use("/playthroughs", playthroughRoutes);
+apiRouter.use("/sessions", sessionRoutes);
 
 app.use("/api", apiRouter);
 app.use(notFoundHandler);
