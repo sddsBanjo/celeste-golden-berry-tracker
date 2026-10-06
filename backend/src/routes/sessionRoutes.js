@@ -8,5 +8,6 @@ const router = Router();
 router.get("/", sessionController.getAll);
 router.get("/:id", validateId, sessionController.getById);
 router.post("/", validateSession, sessionController.create);
+router.delete("/:id", validateId, sessionController.remove);
 
 export default router;

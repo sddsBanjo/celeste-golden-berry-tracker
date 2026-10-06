@@ -44,3 +44,16 @@ export function create(req, res) {
 
     res.status(201).json(newSession);
 }
+
+export function remove(req, res) {
+    const id = Number(req.params.id);
+
+    const removed = sessionRepository.remove(id);
+    if (!removed) {
+        return res.status(404).json({
+            error: `Couldn't find a session of ID ${id}.`
+        });
+    }
+
+    res.status(204).send();
+}
