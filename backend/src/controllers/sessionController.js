@@ -11,6 +11,19 @@ export function getAll(req, res) {
     res.json(result);
 }
 
+export function getById(req, res) {
+    const id = Number(req.params.id);
+
+    const session = sessionRepository.getById(id);
+    if (!session) {
+        return res.status(404).json({
+            error: `Couldn't find a session of ID ${id}.`
+        });
+    }
+
+    res.json(session);
+}
+
 export function create(req, res) {
     const playthroughChapterId = req.body.playthrough_chapter_id;
 
