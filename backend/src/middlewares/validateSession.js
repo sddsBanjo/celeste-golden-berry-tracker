@@ -26,8 +26,8 @@ export function validateSession(req, res, next) {
     if (!isValidPlayedAt(body.played_at)) {
         errors.push({ field: "played_at", message: "played_at is required, must be a valid date, and cannot be in the future." });
     }
-    if (!isNonNegativeInteger(body.duration_seconds)) {
-        errors.push({ field: "duration_seconds", message: "duration_seconds is required and must be an integer greater than or equal to 0." });
+    if (!isPositiveInteger(body.duration_seconds)) {
+        errors.push({ field: "duration_seconds", message: "duration_seconds is required and must be a positive integer." });
     }
     if (!isNonNegativeInteger(body.deaths)) {
         errors.push({ field: "deaths", message: "deaths is required and must be an integer greater than or equal to 0." });
